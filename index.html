@@ -1,20 +1,455 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <title>SMC Hobby</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SMC Hobby | Scale Models & Figures</title>
+  <meta name="description" content="Scale models, figures, and hobby supplies. Curated kits, clean listings, fast responses." />
+
+  <style>
+    :root{
+      --bg: #0b1020;
+      --card: rgba(255,255,255,.06);
+      --card2: rgba(255,255,255,.10);
+      --text: rgba(255,255,255,.92);
+      --muted: rgba(255,255,255,.70);
+      --line: rgba(255,255,255,.12);
+      --accent: #7c5cff;      /* purple */
+      --accent2:#2dd4bf;      /* teal */
+      --shadow: 0 20px 60px rgba(0,0,0,.45);
+      --radius: 18px;
+      --radius2: 26px;
+      --max: 1100px;
+    }
+
+    *{ box-sizing: border-box; }
+    html,body{ height: 100%; }
+    body{
+      margin:0;
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(124,92,255,.45), transparent 55%),
+        radial-gradient(900px 500px at 95% 10%, rgba(45,212,191,.28), transparent 55%),
+        radial-gradient(900px 600px at 50% 120%, rgba(255,255,255,.08), transparent 60%),
+        var(--bg);
+      font: 16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+    }
+
+    a{ color: inherit; text-decoration: none; }
+    .wrap{ max-width: var(--max); margin: 0 auto; padding: 22px 18px 80px; }
+
+    /* Top nav */
+    .nav{
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 14px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.22);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      position: sticky; top: 14px; z-index: 20;
+    }
+    .brand{
+      display:flex; align-items:center; gap: 10px; min-width: 180px;
+      font-weight: 800; letter-spacing: .2px;
+    }
+    .logo{
+      width: 38px; height: 38px; border-radius: 12px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(255,255,255,.35), transparent 55%),
+        linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 12px 30px rgba(124,92,255,.30);
+      border: 1px solid rgba(255,255,255,.18);
+    }
+    .brand small{ display:block; font-weight: 600; color: var(--muted); margin-top: -2px; letter-spacing: 0; }
+
+    .links{ display:flex; gap: 14px; flex-wrap: wrap; justify-content:center; }
+    .links a{
+      padding: 8px 10px; border-radius: 12px;
+      color: var(--muted);
+      border: 1px solid transparent;
+    }
+    .links a:hover{
+      color: var(--text);
+      border-color: var(--line);
+      background: rgba(255,255,255,.04);
+    }
+
+    .ctaRow{ display:flex; gap: 10px; align-items:center; justify-content:flex-end; min-width: 220px; }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      gap: 10px;
+      padding: 10px 14px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      font-weight: 650;
+      transition: transform .12s ease, background .12s ease, border-color .12s ease;
+      white-space: nowrap;
+    }
+    .btn:hover{ background: rgba(255,255,255,.10); border-color: rgba(255,255,255,.22); transform: translateY(-1px); }
+    .btn.primary{
+      border-color: rgba(124,92,255,.55);
+      background: linear-gradient(135deg, rgba(124,92,255,.95), rgba(45,212,191,.70));
+      box-shadow: 0 18px 50px rgba(124,92,255,.25);
+      color: #081022;
+    }
+    .btn.primary:hover{ transform: translateY(-2px); }
+
+    /* Hero */
+    .hero{
+      margin-top: 18px;
+      border-radius: var(--radius2);
+      border: 1px solid var(--line);
+      background:
+        radial-gradient(900px 300px at 20% 10%, rgba(124,92,255,.25), transparent 65%),
+        radial-gradient(700px 350px at 80% 20%, rgba(45,212,191,.16), transparent 60%),
+        rgba(0,0,0,.18);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .heroInner{ padding: 48px 22px; }
+    .pill{
+      display:inline-flex; align-items:center; gap: 10px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      color: var(--muted);
+      font-weight: 650;
+      font-size: 13px;
+    }
+    .dot{
+      width: 9px; height: 9px; border-radius: 99px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 0 0 4px rgba(124,92,255,.18);
+    }
+    h1{
+      margin: 14px 0 10px;
+      font-size: clamp(34px, 5vw, 54px);
+      line-height: 1.05;
+      letter-spacing: -.6px;
+    }
+    .sub{
+      max-width: 720px;
+      font-size: 18px;
+      color: var(--muted);
+      margin: 0 0 18px;
+    }
+    .heroActions{ display:flex; gap: 12px; flex-wrap: wrap; margin-top: 18px; }
+    .quickStats{
+      margin-top: 26px;
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0,1fr));
+      gap: 12px;
+    }
+    .stat{
+      padding: 14px 14px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      border-radius: var(--radius);
+    }
+    .stat b{ display:block; font-size: 15px; }
+    .stat span{ color: var(--muted); font-size: 13px; }
+
+    /* Sections */
+    .section{ margin-top: 26px; }
+    .sectionHeader{
+      display:flex; align-items:flex-end; justify-content:space-between;
+      gap: 14px; flex-wrap: wrap;
+      margin: 26px 2px 12px;
+    }
+    .sectionHeader h2{
+      margin:0;
+      font-size: 22px;
+      letter-spacing: -.2px;
+    }
+    .sectionHeader p{
+      margin:0;
+      color: var(--muted);
+      max-width: 680px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, minmax(0,1fr));
+      gap: 14px;
+    }
+    .card{
+      border-radius: var(--radius2);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.05);
+      box-shadow: 0 12px 40px rgba(0,0,0,.25);
+      overflow:hidden;
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+    }
+    .card:hover{
+      transform: translateY(-2px);
+      border-color: rgba(255,255,255,.22);
+      background: rgba(255,255,255,.07);
+    }
+    .cardPad{ padding: 16px; }
+
+    .thumb{
+      height: 150px;
+      background:
+        radial-gradient(circle at 35% 30%, rgba(255,255,255,.18), transparent 55%),
+        linear-gradient(135deg, rgba(124,92,255,.65), rgba(45,212,191,.25));
+      border-bottom: 1px solid var(--line);
+    }
+    .price{ color: rgba(255,255,255,.88); font-weight: 800; }
+    .muted{ color: var(--muted); }
+
+    /* Feature cards */
+    .feature{ grid-column: span 4; }
+    .product{ grid-column: span 4; }
+    .category{ grid-column: span 4; }
+
+    .tag{
+      display:inline-flex; align-items:center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.18);
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 650;
+    }
+
+    /* Newsletter/contact */
+    .panel{
+      border-radius: var(--radius2);
+      border: 1px solid var(--line);
+      background: rgba(0,0,0,.20);
+      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panelInner{ padding: 22px; }
+    .formRow{
+      display:flex; gap: 10px; flex-wrap: wrap; margin-top: 12px;
+    }
+    input[type="email"]{
+      flex: 1 1 240px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1solid var(--line);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      outline: none;
+    }
+    input[type="email"]::placeholder{ color: rgba(255,255,255,.55); }
+
+    .footer{
+      margin-top: 22px;
+      color: var(--muted);
+      font-size: 13px;
+      display:flex; justify-content:space-between; gap: 10px; flex-wrap: wrap;
+      padding: 0 6px;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px){
+      .feature, .product, .category{ grid-column: span 6; }
+      .quickStats{ grid-template-columns: 1fr; }
+      .ctaRow{ min-width: auto; }
+    }
+    @media (max-width: 560px){
+      .links{ display:none; } /* keep nav clean on phones */
+      .feature, .product, .category{ grid-column: span 12; }
+      .heroInner{ padding: 36px 18px; }
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Welcome to SMC Hobby</h1>
-  <p>Scale models, figures, and hobby supplies.</p>
+  <div class="wrap">
+    <header class="nav">
+      <a class="brand" href="#top" aria-label="SMC Hobby home">
+        <span class="logo" aria-hidden="true"></span>
+        <span>
+          SMC Hobby
+          <small>Scale models & figures</small>
+        </span>
+      </a>
 
-  <h2>Products</h2>
-  <ul>
-    <li>1/35 Scale Model Kits</li>
-    <li>Figures & Miniatures</li>
-    <li>Tools & Accessories</li>
-  </ul>
+      <nav class="links" aria-label="Primary">
+        <a href="#featured">Featured</a>
+        <a href="#categories">Categories</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </nav>
 
-  <p>Contact: info@smchobby.com</p>
+      <div class="ctaRow">
+        <a class="btn" href="#contact">Email me</a>
+        <a class="btn primary" href="#featured">Browse items →</a>
+      </div>
+    </header>
+
+    <main id="top" class="hero">
+      <div class="heroInner">
+        <span class="pill"><span class="dot"></span> Live site • New inventory posted regularly</span>
+        <h1>Build-ready kits, crisp figures, and the good stuff hobbyists actually want.</h1>
+        <p class="sub">
+          Welcome to SMC Hobby — a simple, fast shop for scale model kits, figures, tools, and accessories.
+          Clean listings, honest condition notes, and quick replies.
+        </p>
+
+        <div class="heroActions">
+          <a class="btn primary" href="#featured">Shop featured picks →</a>
+          <a class="btn" href="#categories">View categories</a>
+          <a class="btn" href="#about">Why SMC?</a>
+        </div>
+
+        <div class="quickStats" aria-label="Highlights">
+          <div class="stat">
+            <b>Curated inventory</b>
+            <span>No endless junk — just solid kits & minis.</span>
+          </div>
+          <div class="stat">
+            <b>Clear condition notes</b>
+            <span>What’s included, what’s missing, what’s sealed.</span>
+          </div>
+          <div class="stat">
+            <b>Fast contact</b>
+            <span>Questions? Email and I’ll get back to you.</span>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <section id="featured" class="section">
+      <div class="sectionHeader">
+        <div>
+          <h2>Featured picks</h2>
+          <p>These are example cards for now. We’ll replace them with your real products and photos next.</p>
+        </div>
+        <span class="tag">Tip: click a card later to go to a product page</span>
+      </div>
+
+      <div class="grid">
+        <article class="card product">
+          <div class="thumb" role="img" aria-label="Featured product image placeholder"></div>
+          <div class="cardPad">
+            <div class="tag">1/35 • Armor</div>
+            <h3 style="margin:10px 0 6px;">WWII Tank Model Kit</h3>
+            <p class="muted" style="margin:0 0 10px;">Sealed kit • crisp detail • great build weekend.</p>
+            <div class="price">$49.99</div>
+          </div>
+        </article>
+
+        <article class="card product">
+          <div class="thumb" role="img" aria-label="Featured product image placeholder"></div>
+          <div class="cardPad">
+            <div class="tag">28mm • Figure</div>
+            <h3 style="margin:10px 0 6px;">Resin Figure Set</h3>
+            <p class="muted" style="margin:0 0 10px;">Clean cast • sharp faces • ready for paint.</p>
+            <div class="price">$19.99</div>
+          </div>
+        </article>
+
+        <article class="card product">
+          <div class="thumb" role="img" aria-label="Featured product image placeholder"></div>
+          <div class="cardPad">
+            <div class="tag">Tools</div>
+            <h3 style="margin:10px 0 6px;">Hobby Tool Bundle</h3>
+            <p class="muted" style="margin:0 0 10px;">Basics that actually get used: cutters, files, etc.</p>
+            <div class="price">$24.99</div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="categories" class="section">
+      <div class="sectionHeader">
+        <div>
+          <h2>Shop by category</h2>
+          <p>We can make each of these a real page later (Kits, Figures, Tools, Accessories).</p>
+        </div>
+      </div>
+
+      <div class="grid">
+        <article class="card category">
+          <div class="cardPad">
+            <div class="tag">Kits</div>
+            <h3 style="margin:10px 0 6px;">Scale Model Kits</h3>
+            <p class="muted" style="margin:0;">Armor, aircraft, sci-fi, ships — the fun builds.</p>
+          </div>
+        </article>
+
+        <article class="card category">
+          <div class="cardPad">
+            <div class="tag">Minis</div>
+            <h3 style="margin:10px 0 6px;">Figures & Miniatures</h3>
+            <p class="muted" style="margin:0;">Display figures, diorama people, tabletop minis.</p>
+          </div>
+        </article>
+
+        <article class="card category">
+          <div class="cardPad">
+            <div class="tag">Workbench</div>
+            <h3 style="margin:10px 0 6px;">Tools & Supplies</h3>
+            <p class="muted" style="margin:0;">Cutters, sanding, glues, paints, basing.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="sectionHeader">
+        <div>
+          <h2>About SMC Hobby</h2>
+          <p>Replace this with your story (2–4 sentences). It builds trust fast.</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panelInner">
+          <p class="muted" style="margin:0;">
+            I’m a model builder selling kits and figures I’d actually recommend. I keep listings simple and honest:
+            what’s included, what condition it’s in, and how fast I can ship or respond.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="sectionHeader">
+        <div>
+          <h2>Contact</h2>
+          <p>For now, this is perfect: a clear email + optional “notify me” list.</p>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panelInner">
+          <p style="margin:0 0 6px;"><b>Email:</b> <span class="muted">info@smchobby.com</span></p>
+          <p class="muted" style="margin:0 0 10px;">
+            Want first dibs when new inventory drops? (This form doesn’t send anywhere yet — we can wire it up later.)
+          </p>
+
+          <div class="formRow">
+            <input type="email" placeholder="your@email.com" aria-label="Email address" />
+            <a class="btn primary" href="mailto:info@smchobby.com?subject=SMC%20Hobby%20-%20Inventory%20Update%20List">
+              Join list (email) →
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer">
+        <span>© <span id="y"></span> SMC Hobby</span>
+        <span>Hosted free on GitHub Pages</span>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    document.getElementById("y").textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
-
